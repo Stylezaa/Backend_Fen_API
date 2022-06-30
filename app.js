@@ -44,16 +44,16 @@ app.use(helmet.crossOriginEmbedderPolicy());
 // Apply the rate limiting middleware to all requests
 // app.use(limiter)
 
-var whitelist = ['http://localhost:3000']
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
-}
+// var whitelist = ['http://localhost:3000']
+// var corsOptions = {
+//   origin: function (origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true)
+//     } else {
+//       callback(new Error('Not allowed by CORS'))
+//     }
+//   }
+// }
 
 mongoose.connect(config.MONGODB_URI, {
     useNewUrlParser: true, //for delete warning from console
