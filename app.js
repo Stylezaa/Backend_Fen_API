@@ -30,8 +30,8 @@ const userRouter = require('./routes/User/user');
 var app = express();
 app.use(cors());
 
-//Protech stack for build
-app.use(helmet());
+//Protect stack for build
+app.use(helmet.crossOriginEmbedderPolicy());
 
 //Set Rate limit for Required Api
 // const limiter = rateLimit({
