@@ -5,10 +5,6 @@ const cors = require('cors');
 var logger = require('morgan');
 const mongoose = require("mongoose");
 
-// //Protect stack for build
-const helmet = require('helmet');
-// const rateLimit = require('express-rate-limit')
-
 //import middleware
 const errorHandler = require("./middleware/errorHandler");
 
@@ -29,31 +25,6 @@ const userRouter = require('./routes/User/user');
 
 var app = express();
 app.use(cors());
-
-//Protect stack for build
-app.use(helmet.crossOriginEmbedderPolicy());
-
-//Set Rate limit for Required Api
-// const limiter = rateLimit({
-// 	windowMs: 15 * 60 * 1000, // 15 minutes
-// 	max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-// 	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-// 	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-// })
-
-// Apply the rate limiting middleware to all requests
-// app.use(limiter)
-
-// var whitelist = ['http://localhost:3000']
-// var corsOptions = {
-//   origin: function (origin, callback) {
-//     if (whitelist.indexOf(origin) !== -1) {
-//       callback(null, true)
-//     } else {
-//       callback(new Error('Not allowed by CORS'))
-//     }
-//   }
-// }
 
 mongoose.connect(config.MONGODB_URI, {
     useNewUrlParser: true, //for delete warning from console
