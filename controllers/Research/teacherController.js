@@ -30,7 +30,7 @@ exports.getByID = async (req, res, next) => {
         }
 
         const {id} = req.params;
-        const TeacherOne = await Teacher.findById(id).populate('department');;
+        const TeacherOne = await Teacher.findById(id).populate('department');
 
         if (!TeacherOne) {
             res.status(404).json({
