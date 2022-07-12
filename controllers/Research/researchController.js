@@ -32,7 +32,7 @@ exports.getByID = async (req, res, next) => {
         }
 
         const {id} = req.params;
-        const ResearchOne = await Research.findById(id).populate('teacher');
+        const ResearchOne = await Research.findById(id).populate('teacher').populate('department');
 
         if (!ResearchOne) {
             res.status(404).json({
@@ -41,6 +41,34 @@ exports.getByID = async (req, res, next) => {
         } 
         
         res.status(200).send(ResearchOne);
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+exports.getByTeacher = async (req, res, next) => {
+    try {
+
+        //Validation data
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+        const error = new Error("Data Format are not correct");
+        error.statusCode = 422; //message type not collect
+        error.validation = errors.array();
+        throw error;
+        }
+
+        const searchField = req.query.fullname_en;
+        const Researches = await Research.find({}).populate({path: 'teachers', match: {fullname_en: searchField}});
+
+        if (!Researches) {
+            res.status(404).json({
+                message: "Not Found This Item"
+            });
+        } 
+        
+        res.status(200).send(Researches);
 
     } catch (error) {
         next(error);

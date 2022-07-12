@@ -10,7 +10,7 @@ const UserSchema = new Schema (
         tel: {type: String, require: true},
         address: {type: String, require: true},
         profile_img: {type: String, require: true},
-        department: {type: Schema.Types.ObjectId, ref: "Department", require: true} // Department is Foreign key (FK)
+        department: {type: Schema.Types.ObjectId, ref: "Department", require: true}, // Department is Foreign key (FK)
     },
     {
         toJSON: {virtuals: true},

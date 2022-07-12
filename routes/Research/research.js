@@ -39,6 +39,7 @@ const uploadOptions = multer({ storage: storageCustom })
 router.get('/', researchController.index);
 router.get('/all', researchController.getAll)
 router.get('/get/:id', researchController.getByID)
+router.get('/get/filters', researchController.getByTeacher)
 router.post('/insert', 
 // [
 //   body('name_research').not().isEmpty().withMessage('Please input fullname_la field'),
