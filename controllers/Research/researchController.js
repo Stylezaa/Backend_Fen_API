@@ -60,7 +60,7 @@ exports.getByTeacher = async (req, res, next) => {
         }
 
         const searchField = req.query.fullname_en;
-        const Researches = await Research.find({}).populate({path: 'teachers', match: {fullname_en: searchField}});
+        const Researches = await Research.find().populate({path: 'teachers', match: {fullname_en: searchField}});
 
         if (!Researches) {
             res.status(404).json({
