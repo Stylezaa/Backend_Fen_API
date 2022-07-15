@@ -35,8 +35,7 @@ const uploadOptions = multer({ storage: storageCustom })
 
 router.get('/', newsController.index);
 router.get('/all', newsController.getAll)
-router.get('/filter', newsController.getByCategory);
-router.get('/filters', newsController.getByManyCategory);
+router.get('/filters', newsController.getByCategory)
 router.get('/get/:id', newsController.getByID);
 router.post('/insert_image', uploadOptions.fields([{name: 'image', maxCount: 1}]), newsController.insertImage), 
 router.post('/insert', uploadOptions.fields([{name: 'cover', maxCount: 1}, {name: 'images', maxCount: 9}]), 

@@ -20,6 +20,26 @@ exports.getAll = async (req, res) => {
     res.send(newsList);
 }
 
+exports.getByCategory = async (req, res) => {
+
+    let filter = {}
+    if (req.query.categories) {
+        filter = {category: req.query.categories.split(',')}
+    }
+
+    // console.log(filter)
+
+    let categoryList = await News.find(filter).populate('category');
+
+    if (!categoryList) {
+        res.status(200).json({
+            message: "Not Found Any Data"
+        })
+    }
+
+    res.send(categoryList)
+}
+
 exports.getByID = async (req, res, next) => {
     try {
         //Validation data
@@ -33,68 +53,6 @@ exports.getByID = async (req, res, next) => {
 
         const {id} = req.params;
         const NewsOne = await News.findById(id);
-
-        if (!NewsOne) {
-            res.status(404).json({
-                message: "Not Found This Item"
-            });
-        }
-
-        res.status(200).send(NewsOne)
-
-    } catch (error) {
-        next(error);
-    }
-}
-
-exports.getByCategory = async (req, res, next) => {
-    try {
-        //Validation data
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-        const error = new Error("Data Format are not correct");
-        error.statusCode = 422; //message type not collect
-        error.validation = errors.array();
-        throw error;
-        }
-
-        const searchField = req.query.category_name;
-        const NewsOne = await News.find({}).populate({path: 'category', match: {category_name: searchField}});
-        console.log(NewsOne)
-
-        if (!NewsOne) {
-            res.status(404).json({
-                message: "Not Found This Item"
-            });
-        }
-
-        res.status(200).send(NewsOne)
-
-    } catch (error) {
-        next(error);
-    }
-}
-
-exports.getByManyCategory = async (req, res, next) => {
-    try {
-        //Validation data
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-        const error = new Error("Data Format are not correct");
-        error.statusCode = 422; //message type not collect
-        error.validation = errors.array();
-        throw error;
-        }
-
-        const searchField1 = req.query.category_name1;
-        const searchField2 = req.query.category_name2;
-        const NewsOne = await News.find().populate({path: 'category', match: {
-            $and: [ 
-                { category_name: searchField1 },  
-                { category_name: searchField2 } ]
-            }
-        });
-        console.log(NewsOne)
 
         if (!NewsOne) {
             res.status(404).json({
@@ -168,6 +126,16 @@ exports.insert = async (req, res, next) => {
         }
 
         await news.save();
+
+        const cate = await news.save();
+        await Category.updateOne({
+            _id: category
+            }, {
+                $push: {
+                    news_list: cate._id
+                }
+            }
+        )
 
         res.status(201).json({
             message: "Insert News Successfully"

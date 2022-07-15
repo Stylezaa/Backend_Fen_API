@@ -87,7 +87,6 @@ exports.insert = async (req, res, next) => {
             department: department
         })
 
-        console.log(teacher);
         await teacher.save();
 
         if (!teacher) {

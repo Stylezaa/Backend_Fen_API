@@ -8,7 +8,7 @@ exports.index = (req, res) => {
 }
 
 exports.getAll = async (req, res) => {
-    let categoryList = await Category.find();
+    let categoryList = await Category.find().populate('news_list');
 
     if (!categoryList) {
         res.status(200).json({
@@ -32,7 +32,7 @@ exports.getById = async (req, res, next) => {
         }
 
         const {id} = req.params;
-        const CategoryOne = await Category.findById(id);
+        const CategoryOne = await Category.findById(id).populate('news_list');
 
         if (!CategoryOne) {
             res.status(404).json({

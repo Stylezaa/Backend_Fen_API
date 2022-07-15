@@ -3,7 +3,8 @@ const {Schema} = mongoose;
 
 const CategorySchema = new Schema (
     {
-        category_name: {type: String, text: true, require: true}
+        category_name: {type: String, text: true, require: true},
+        news_list: [{type: Schema.Types.ObjectId, ref: "News"}]
     },
     {
         toJSON: {virtuals: true},
