@@ -12,7 +12,7 @@ exports.getAll = async (req, res) => {
     let newsList = await News.find().populate('category').sort({_id: -1})
 
     if (!newsList) {
-        res.status(200).json({
+        res.status(404).json({
             message: "Not Found Any Data"
         })
     }
