@@ -11,7 +11,8 @@ const UserSchema = new Schema (
         address: {type: String, require: true},
         profile_img: {type: String, require: true},
         department: {type: Schema.Types.ObjectId, ref: "Department", require: true}, // Department is Foreign key (FK)
-    },
+        research: [{type: Schema.Types.ObjectId, ref: "Research"}]
+    },  
     {
         toJSON: {virtuals: true},
         timestamps: true,

@@ -59,7 +59,7 @@ exports.getByCategory = async (req, res, next) => {
         }
 
         const searchField = req.query.category_name;
-        const NewsOne = await News.find().populate({path: 'category', match: {category_name: searchField}});
+        const NewsOne = await News.find({}).populate({path: 'category', match: {category_name: searchField}});
         console.log(NewsOne)
 
         if (!NewsOne) {

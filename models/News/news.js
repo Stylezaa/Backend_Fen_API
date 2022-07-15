@@ -3,7 +3,7 @@ const {Schema} = mongoose;
 
 const NewsSchema = new Schema (
     {
-        title: {type: String, require: true},
+        title: {type: String, text: true, require: true},
         content: {type: String, require: true},
         cover: {type: String, require: true},
         images: [{type: String, require: true}],

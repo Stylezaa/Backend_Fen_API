@@ -3,7 +3,7 @@ const {Schema} = mongoose;
 
 const CategorySchema = new Schema (
     {
-        category_name: {type: String, require: true}
+        category_name: {type: String, text: true, require: true}
     },
     {
         toJSON: {virtuals: true},

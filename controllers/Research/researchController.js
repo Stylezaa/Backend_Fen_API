@@ -1,4 +1,5 @@
 const Research = require('../../models/Research/research');
+const Teacher = require('../../models/Research/teacher');
 const { validationResult } = require("express-validator");
 
 exports.index = (req, res) => {
@@ -120,7 +121,15 @@ exports.insert = async (req, res, next) => {
             })
         }
 
-        await research.save();
+        const rs = await research.save();
+        await Teacher.updateOne({
+            _id: teacher
+            }, {
+                $push: {
+                    research: rs._id
+                }
+            }
+        )
 
         res.status(201).json({
             message: "Insert Research Successfully"
@@ -174,7 +183,6 @@ exports.update = async (req, res, next) => {
   
     const fileName = req.files['research_file'][0].filename;
     const basePath = `${req.protocol}://${req.get('host')}/public/uploads/researches/`;
-
 
     try {
 

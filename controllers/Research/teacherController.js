@@ -8,7 +8,7 @@ exports.index = (req, res) => {
 }
 
 exports.getAll = async (req, res, next) => {
-    let teacherList = await Teacher.find().populate('department');
+    let teacherList = await Teacher.find().populate('department').populate('research');
 
     if (!teacherList) {
         res.status(500).json({message: "Not Found Any Data"})
@@ -84,16 +84,17 @@ exports.insert = async (req, res, next) => {
             tel: tel,
             address: address,
             profile_img: `${basePath}${fileName}`,
-            department: department,
+            department: department
         })
+
+        console.log(teacher);
+        await teacher.save();
 
         if (!teacher) {
             res.status(200).json({
                 message: "Not Found Any Data"
             })
         }
-
-        await teacher.save();
 
         res.status(201).json({
             message: "Insert Teacher Successfully"
@@ -138,7 +139,7 @@ exports.update = async (req, res, next) => {
 
     const {id} = req.params;
 
-    const {fullname_la, fullname_en, position, email, tel, address, department} = req.body;
+    const {fullname_la, fullname_en, position, email, tel, address, department, research} = req.body;
 
     const file = req.files['profile_img'][0];
     if (!file) {
